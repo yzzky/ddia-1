@@ -474,6 +474,471 @@
 </ul>
 
 
+
+
+<h1 id="toc_0">9. 一致性与共识</h1>
+
+<h2 id="toc_1">9.1 一致性保证</h2>
+
+<h2 id="toc_2">9.2 线性一致性</h2>
+
+<h3 id="toc_3">9.2.1 什么使得系统线性一致？</h3>
+
+<h3 id="toc_4">9.2.2 依赖线性一致性</h3>
+
+<h4 id="toc_5">锁定和领导选举</h4>
+
+<h4 id="toc_6">约束和唯一性保证</h4>
+
+<h4 id="toc_7">跨信道的时序依赖</h4>
+
+<h3 id="toc_8">9.2.3 实现线性一致的系统</h3>
+
+<h4 id="toc_9">线性一致性和法定人数</h4>
+
+<h3 id="toc_10">9.2.4 线性一致性的代价</h3>
+
+<h4 id="toc_11">CAP定理</h4>
+
+<h5 id="toc_12">线性一致性和网络延迟</h5>
+
+<h3 id="toc_13">9.2.5 顺序保证</h3>
+
+<h4 id="toc_14">顺序与因果</h4>
+
+<h5 id="toc_15">因果顺序不是全序的</h5>
+
+<h5 id="toc_16">线性一致性强于因果一致性</h5>
+
+<h5 id="toc_17">捕获因果关系</h5>
+
+<h4 id="toc_18">序列号顺序</h4>
+
+<h5 id="toc_19">非因果序列号生成器</h5>
+
+<h5 id="toc_20">兰伯特时间戳</h5>
+
+<h5 id="toc_21">光有时间戳排序还不够</h5>
+
+<h4 id="toc_22">全序广播</h4>
+
+<h4 id="toc_23">使用全序广播</h4>
+
+<h4 id="toc_24">使用全序广播实现线性一致的存储</h4>
+
+<h4 id="toc_25">使用线性一致性存储实现全序广播</h4>
+
+<h2 id="toc_26">9.3 分布式事务与共识</h2>
+
+<h2 id="toc_27">9.4 原子提交与二阶段提交（2PC）</h2>
+
+<h3 id="toc_28">9.4.1 从单节点到分布式原子提交</h3>
+
+<h3 id="toc_29">9.4.2 两阶段提交简介</h3>
+
+<h3 id="toc_30">9.4.3 系统承诺</h3>
+
+<h3 id="toc_31">9.4.4 协调者失效</h3>
+
+<h3 id="toc_32">9.4.5 三阶段提交</h3>
+
+<h2 id="toc_33">9.5 实践中的分布式事务</h2>
+
+<h3 id="toc_34">恰好一次的消息处理</h3>
+
+<h3 id="toc_35">XA事务</h3>
+
+<h3 id="toc_36">怀疑时持有锁</h3>
+
+<h3 id="toc_37">从协调者故障中恢复</h3>
+
+<h3 id="toc_38">分布式事务的限制</h3>
+
+<h2 id="toc_39">9.6 容错共识</h2>
+
+<h3 id="toc_40">共识算法和全序广播</h3>
+
+<h3 id="toc_41">单领导者复制和共识</h3>
+
+<h3 id="toc_42">时代编号和法定人数</h3>
+
+<h3 id="toc_43">共识的局限性</h3>
+
+<h2 id="toc_44">9.7 成员与协调服务</h2>
+
+<h3 id="toc_45">将工作分配给节点</h3>
+
+<h3 id="toc_46">服务发现</h3>
+
+<h3 id="toc_47">成员服务</h3>
+
+<h2 id="toc_48">9.8 本章小结</h2>
+
+<h2 id="toc_49">参考文献</h2>
+
+<p><img src="img/ch9.png" alt=""/></p>
+
+<blockquote>
+<p>好死不如赖活着<br/>
+—— Jay Kreps, 关于Kafka与 Jepsen的若干笔记 (2013)</p>
+</blockquote>
+
+<hr/>
+
+<ul>
+<li>
+<a href="#toc_0">9. 一致性与共识</a>
+<ul>
+<li>
+<a href="#toc_1">9.1 一致性保证</a>
+</li>
+<li>
+<a href="#toc_2">9.2 线性一致性</a>
+<ul>
+<li>
+<a href="#toc_3">9.2.1 什么使得系统线性一致？</a>
+</li>
+<li>
+<a href="#toc_4">9.2.2 依赖线性一致性</a>
+<ul>
+<li>
+<a href="#toc_5">锁定和领导选举</a>
+</li>
+<li>
+<a href="#toc_6">约束和唯一性保证</a>
+</li>
+<li>
+<a href="#toc_7">跨信道的时序依赖</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_8">9.2.3 实现线性一致的系统</a>
+<ul>
+<li>
+<a href="#toc_9">线性一致性和法定人数</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_10">9.2.4 线性一致性的代价</a>
+<ul>
+<li>
+<a href="#toc_11">CAP定理</a>
+<ul>
+<li>
+<a href="#toc_12">线性一致性和网络延迟</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_13">9.2.5 顺序保证</a>
+<ul>
+<li>
+<a href="#toc_14">顺序与因果</a>
+<ul>
+<li>
+<a href="#toc_15">因果顺序不是全序的</a>
+</li>
+<li>
+<a href="#toc_16">线性一致性强于因果一致性</a>
+</li>
+<li>
+<a href="#toc_17">捕获因果关系</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_18">序列号顺序</a>
+<ul>
+<li>
+<a href="#toc_19">非因果序列号生成器</a>
+</li>
+<li>
+<a href="#toc_20">兰伯特时间戳</a>
+</li>
+<li>
+<a href="#toc_21">光有时间戳排序还不够</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_22">全序广播</a>
+</li>
+<li>
+<a href="#toc_23">使用全序广播</a>
+</li>
+<li>
+<a href="#toc_24">使用全序广播实现线性一致的存储</a>
+</li>
+<li>
+<a href="#toc_25">使用线性一致性存储实现全序广播</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_26">9.3 分布式事务与共识</a>
+</li>
+<li>
+<a href="#toc_27">9.4 原子提交与二阶段提交（2PC）</a>
+<ul>
+<li>
+<a href="#toc_28">9.4.1 从单节点到分布式原子提交</a>
+</li>
+<li>
+<a href="#toc_29">9.4.2 两阶段提交简介</a>
+</li>
+<li>
+<a href="#toc_30">9.4.3 系统承诺</a>
+</li>
+<li>
+<a href="#toc_31">9.4.4 协调者失效</a>
+</li>
+<li>
+<a href="#toc_32">9.4.5 三阶段提交</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_33">9.5 实践中的分布式事务</a>
+<ul>
+<li>
+<a href="#toc_34">恰好一次的消息处理</a>
+</li>
+<li>
+<a href="#toc_35">XA事务</a>
+</li>
+<li>
+<a href="#toc_36">怀疑时持有锁</a>
+</li>
+<li>
+<a href="#toc_37">从协调者故障中恢复</a>
+</li>
+<li>
+<a href="#toc_38">分布式事务的限制</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_39">9.6 容错共识</a>
+<ul>
+<li>
+<a href="#toc_40">共识算法和全序广播</a>
+</li>
+<li>
+<a href="#toc_41">单领导者复制和共识</a>
+</li>
+<li>
+<a href="#toc_42">时代编号和法定人数</a>
+</li>
+<li>
+<a href="#toc_43">共识的局限性</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_44">9.7 成员与协调服务</a>
+<ul>
+<li>
+<a href="#toc_45">将工作分配给节点</a>
+</li>
+<li>
+<a href="#toc_46">服务发现</a>
+</li>
+<li>
+<a href="#toc_47">成员服务</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_48">9.8 本章小结</a>
+</li>
+<li>
+<a href="#toc_49">参考文献</a>
+</li>
+<li>
+<a href="#toc_50">一致性保证</a>
+</li>
+<li>
+<a href="#toc_51">线性一致性</a>
+<ul>
+<li>
+<a href="#toc_52">什么使得系统线性一致？</a>
+</li>
+<li>
+<a href="#toc_54">依赖线性一致性</a>
+<ul>
+<li>
+<a href="#toc_55">锁定和领导选举</a>
+</li>
+<li>
+<a href="#toc_56">约束和唯一性保证</a>
+</li>
+<li>
+<a href="#toc_57">跨信道的时序依赖</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_58">实现线性一致的系统</a>
+<ul>
+<li>
+<a href="#toc_59">线性一致性和法定人数</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_60">线性一致性的代价</a>
+<ul>
+<li>
+<a href="#toc_61">CAP定理</a>
+<ul>
+<li>
+<a href="#toc_63">线性一致性和网络延迟</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_64">顺序保证</a>
+<ul>
+<li>
+<a href="#toc_65">顺序与因果</a>
+<ul>
+<li>
+<a href="#toc_66">因果顺序不是全序的</a>
+</li>
+<li>
+<a href="#toc_67">线性一致性强于因果一致性</a>
+</li>
+<li>
+<a href="#toc_68">捕获因果关系</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_69">序列号顺序</a>
+<ul>
+<li>
+<a href="#toc_70">非因果序列号生成器</a>
+</li>
+<li>
+<a href="#toc_71">兰伯特时间戳</a>
+</li>
+<li>
+<a href="#toc_72">光有时间戳排序还不够</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_73">全序广播</a>
+</li>
+<li>
+<a href="#toc_75">使用全序广播</a>
+</li>
+<li>
+<a href="#toc_76">使用全序广播实现线性一致的存储</a>
+</li>
+<li>
+<a href="#toc_77">使用线性一致性存储实现全序广播</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_78">分布式事务与共识</a>
+</li>
+<li>
+<a href="#toc_80">原子提交与二阶段提交（2PC）</a>
+<ul>
+<li>
+<a href="#toc_81">从单节点到分布式原子提交</a>
+</li>
+<li>
+<a href="#toc_82">两阶段提交简介</a>
+</li>
+<li>
+<a href="#toc_84">系统承诺</a>
+</li>
+<li>
+<a href="#toc_85">协调者失效</a>
+</li>
+<li>
+<a href="#toc_86">三阶段提交</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_87">实践中的分布式事务</a>
+<ul>
+<li>
+<a href="#toc_88">恰好一次的消息处理</a>
+</li>
+<li>
+<a href="#toc_89">XA事务</a>
+</li>
+<li>
+<a href="#toc_90">怀疑时持有锁</a>
+</li>
+<li>
+<a href="#toc_91">从协调者故障中恢复</a>
+</li>
+<li>
+<a href="#toc_92">分布式事务的限制</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_93">容错共识</a>
+<ul>
+<li>
+<a href="#toc_94">共识算法和全序广播</a>
+</li>
+<li>
+<a href="#toc_95">单领导者复制和共识</a>
+</li>
+<li>
+<a href="#toc_96">时代编号和法定人数</a>
+</li>
+<li>
+<a href="#toc_97">共识的局限性</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_98">成员与协调服务</a>
+<ul>
+<li>
+<a href="#toc_99">将工作分配给节点</a>
+</li>
+<li>
+<a href="#toc_100">服务发现</a>
+</li>
+<li>
+<a href="#toc_101">成员服务</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_102">本章小结</a>
+</li>
+<li>
+<a href="#toc_103">参考文献</a>
+</li>
+</ul>
+</li>
+</ul>
+
+
+
 <p>在数据系统的残酷现实中，很多事情都可能出错：</p>
 
 <ul>
